@@ -5,16 +5,11 @@
 [![Microcontroller](https://img.shields.io/badge/MCU-STM32F446-orange)](#)
 [![Status](https://img.shields.io/badge/Status-Manufactured_&_Tested-brightgreen)](#)
 
-<p align="center">
-  <!-- Replace with a good photo of the final assembled board from your media folder -->
-  <img src="./Media/Final_Assembly.jpg" alt="DASH PCB Assembly" width="600"/>
-</p>
-
 ## 🏎️ System Overview
 
-This repository contains the hardware design and specifications for the Dashboard (DASH) Electronic Control Unit, version 2.0, designed for the Squadra Corse PoliTo SC25 race car[cite: 1]. 
+This repository contains the hardware design and specifications for the Dashboard version 2.0, designed for the Squadra Corse PoliTo SC25 race car[cite: 1]. 
 
-The DASH ECU serves as the primary Human Machine Interface (HMI) for the driver, providing real-time telemetry and critical system states via a TFT display[cite: 1]. Additionally, it acts as a critical node in the vehicle's low-voltage system, handling external LED driving for System Critical Signals (SCS), reading driver inputs from the steering wheel, and directly controlling vehicle actuators like the cooling pumps and fans[cite: 1]. 
+The DASH system serves as the primary Human Machine Interface (HMI) for the driver, providing real-time telemetry and critical system states via a TFT display[cite: 1]. Additionally, it acts as a critical node in the vehicle's low-voltage system, handling external LED driving for System Critical Signals (SCS), reading driver inputs from the steering wheel, and directly controlling vehicle actuators like the cooling pumps and fans[cite: 1]. 
 
 Due to the packaging constraints of the cockpit, the board was engineered to be as compact and thin as possible while maintaining robust automotive-grade protection on all I/O[cite: 1].
 
@@ -54,16 +49,25 @@ The board reads various inputs from the Steering Slave board (rotary switches, p
 
 I personally handled the assembly, SMD soldering, and bench-testing of this prototype. 
 
-* **Check out the [`/Media`](./Media) folder** for high-resolution images of the bare PCB, time-lapses of the stencil/reflow process, and videos of the board driving the TFT screen and CAN bus interfaces during bench validation.
+* **Check out the [`/Media`](./Media) folder** for high-resolution images of the bare PCB, time-lapses of the stencil/reflow process and the final soldered board.
+
+## Future Implementations
+Two versions of the same board are reported inside this repository: 
+ - V2.0: Base version; 
+ - V2.1: Improved version with the inclusion of components for Autonomous Vehicle; 
 
 ## 📁 Repository Structure
 ```text
-├── Hardware/
-│   ├── Gerbers/           # Production files 
-│   ├── BOM/               # Bill of Materials
-│   ├── Schematics/        # PDF exports of the circuit design
-├── Docs/
-│   ├── DASH_v2.0_SSS_SSDD.pdf  # Comprehensive Subsystem Specification
-│   └── Datasheets/             # Key component datasheets
-├── Media/                 # Photos and videos of soldering, assembly, and testing
+├── Dashboard V2.0/
+│   ├── Gerbers/                  # Production files 
+│   ├── BOM/                      # Bill of Materials
+│   ├── Schematics/               # PDF exports of the circuit design
+│   ├── Step/                     # 3D Model of the board
+├── Dashboard V2.1/
+│   ├── Gerbers/                  # Production files 
+│   ├── BOM/                      # Bill of Materials
+│   ├── Schematics/               # PDF exports of the circuit design
+│   ├── Step/                     # 3D Model of the board
+├── Media/                        # Photos and videos of soldering, assembly, and testing
+├── Dashboard_v2_Wiki_Report.pdf  # PDF copy of the technical report available on Squadra Corse PoliTo's Wiki
 └── README.md
