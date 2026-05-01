@@ -7,7 +7,7 @@
 
 ## 🏎️ System Overview
 
-This repository contains the hardware design and specifications for the Dashboard version 2.0, designed for the Squadra Corse PoliTo SC25 race car[cite: 1]. 
+This repository contains the hardware design and specifications for the Dashboard version 2.0, designed for the Squadra Corse PoliTo SC25 race car. 
 
 The DASH system serves as the primary Human Machine Interface (HMI) for the driver, providing real-time telemetry and critical system states via a TFT display. Additionally, it acts as a critical node in the vehicle's low-voltage system, handling external LED driving for System Critical Signals (SCS), reading driver inputs from the steering wheel, and directly controlling vehicle actuators like the cooling pumps and fans. 
 
