@@ -1,1 +1,69 @@
-# Dashboard_PCB_x_SquadraCorsePoliTo
+# Dashboard - v2.0
+**Squadra Corse PoliTo — Formula Student (Season SC25)**
+
+[![Hardware](https://img.shields.io/badge/Hardware-PCB_Design-blue)](#)
+[![Microcontroller](https://img.shields.io/badge/MCU-STM32F446-orange)](#)
+[![Status](https://img.shields.io/badge/Status-Manufactured_&_Tested-brightgreen)](#)
+
+<p align="center">
+  <!-- Replace with a good photo of the final assembled board from your media folder -->
+  <img src="./Media/Final_Assembly.jpg" alt="DASH PCB Assembly" width="600"/>
+</p>
+
+## 🏎️ System Overview
+
+This repository contains the hardware design and specifications for the Dashboard (DASH) Electronic Control Unit, version 2.0, designed for the Squadra Corse PoliTo SC25 race car[cite: 1]. 
+
+The DASH ECU serves as the primary Human Machine Interface (HMI) for the driver, providing real-time telemetry and critical system states via a TFT display[cite: 1]. Additionally, it acts as a critical node in the vehicle's low-voltage system, handling external LED driving for System Critical Signals (SCS), reading driver inputs from the steering wheel, and directly controlling vehicle actuators like the cooling pumps and fans[cite: 1]. 
+
+Due to the packaging constraints of the cockpit, the board was engineered to be as compact and thin as possible while maintaining robust automotive-grade protection on all I/O[cite: 1].
+
+## ✨ Key Features & Hardware Specifications
+
+* **Microcontroller:** STM32F446VET6 (100-pin package), chosen specifically for its high internal RAM capacity to ensure smooth GUI rendering on the TFT screen[cite: 1].
+* **Power Supply:** Custom 24V to 5V step-down converter using the TPS5430DDA buck regulator, followed by a 3.3V LDO for logic-level logic[cite: 1]. Features Over-Voltage Protection (OVP) via Zener diodes and Over-Current Protection (OCP) via inline fuses[cite: 1].
+* **Communications:** Dual CAN 2.0B interfaces utilizing SN65HVD232DRG4 transceivers[cite: 1].
+* **External Memory:** Onboard SST25VF080B Synchronous NOR Flash via SPI, reserved for future data/failure logging implementations[cite: 1].
+* **Display Interface:** SPI interface with dedicated chip select and data/command lines, driving an LCD TFT screen[cite: 1].
+
+## 🧠 Subsystem Engineering & Design Highlights
+
+### 1. Robust CAN Bus Implementation
+To ensure maximum reliability in the electrically noisy environment of a race car, the dual CAN bus lines feature extensive conditioning[cite: 1].
+* **Split Termination:** Instead of a single 120Ω resistor, the termination utilizes two 60.4Ω resistors paired with a 560pF capacitor to create a low-pass filter, significantly reducing line noise[cite: 1].
+* **Isolation & Protection:** An inline common-mode choke (L4) filters common-mode noise, while TVS diodes provide Over-Voltage Protection against voltage spikes[cite: 1]. 
+
+### 2. Actuator Control (PWM & DAC)
+The DASH directly manages the vehicle's cooling systems[cite: 1].
+* **Cooling Fans:** Driven via a 0-5V PWM signal. Since the MCU outputs 3.3V, an n-channel MOSFET is used to switch a 5V supply, providing the correct dynamics for the fans[cite: 1].
+* **Cooling Pump:** Controlled via a DAC output. The 0-3.3V MCU DAC signal is amplified to 0-5V using a TSV991IYLT operational amplifier in a non-inverting configuration (Gain = 1.5)[cite: 1].
+
+### 3. Signal Conditioning & Input Protection
+The board reads various inputs from the Steering Slave board (rotary switches, push-buttons, and the Ready-To-Drive button) and the Shutdown Circuit (SDC)[cite: 1].
+* **Debouncing & Filtering:** All mechanical switch inputs pass through hardware Low-Pass Filters (e.g., 10Hz cutoff for rotary switches, 160Hz for push-buttons) to ensure clean logic transitions before entering the MCU[cite: 1].
+* **High-Voltage Sensing:** The SDC sensing circuit safely reads up to 30V by utilizing a 1.24MΩ/150kΩ voltage divider, paired with TVS protection and decoupling buffers (TSV358IDT)[cite: 1].
+
+## 🛠️ Known Issues & Iterative Improvements (Errata)
+
+*Engineering is an iterative process. Below are known bugs in v2.0 and their respective hardware patches for the next revision.*
+
+* **System Critical Signal (SCS) LED Logic Flip:** The Formula Student rules dictate that the AMS and IMD indicator LEDs must be "Normally ON"[cite: 1]. In the v2.0 design, an n-MOS/p-MOS cascade was used, which inadvertently created a "Normally OFF" logic state[cite: 1]. 
+  * **The Fix:** In future revisions, the AMS and IMD driving circuits will be restructured to mirror the TS_OFF LED configuration, utilizing a pull-up resistor to ensure the LED emits light when no signal is applied[cite: 1].
+
+## 📸 Manufacturing, Soldering, & Testing
+
+I personally handled the assembly, SMD soldering, and bench-testing of this prototype. 
+
+* **Check out the [`/Media`](./Media) folder** for high-resolution images of the bare PCB, time-lapses of the stencil/reflow process, and videos of the board driving the TFT screen and CAN bus interfaces during bench validation.
+
+## 📁 Repository Structure
+```text
+├── Hardware/
+│   ├── Gerbers/           # Production files 
+│   ├── BOM/               # Bill of Materials
+│   ├── Schematics/        # PDF exports of the circuit design
+├── Docs/
+│   ├── DASH_v2.0_SSS_SSDD.pdf  # Comprehensive Subsystem Specification
+│   └── Datasheets/             # Key component datasheets
+├── Media/                 # Photos and videos of soldering, assembly, and testing
+└── README.md
